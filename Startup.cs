@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using mvc.Service;
 
 namespace mvc
 {
@@ -24,6 +27,7 @@ namespace mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +46,28 @@ namespace mvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseStatusCodePages(error => {
+                error.Run(async context => {
+                    var respone = context.Response;
+
+                    var code = respone.StatusCode;
+
+                    
+
+                    var content = @$"
+                    <html>
+                        <head>
+                            <meta charset = 'UTF-8'/>
+                        </head>
+
+                        <h1> Có lỗi: {code} - {(HttpStatusCode)code}</h1>
+                    </html>
+                    ";
+
+                    await respone.WriteAsync(content);
+                });
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -50,7 +76,7 @@ namespace mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=First}/{action=Index}/{id?}");
             });
         }
     }
