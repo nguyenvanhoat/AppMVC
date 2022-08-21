@@ -53,7 +53,14 @@ namespace mvc
 
             app.UseEndpoints(endpoints =>
             {
-                
+                endpoints.MapGet("/sayhi", async context => {
+                    await context.Response.WriteAsync("Xin chào các bạn nhé!");
+                });
+
+                endpoints.MapControllerRoute(
+                    name: "first",
+                    pattern: "start-here/{controller}/{action}{id?}"
+                );
             });
         }
     }
