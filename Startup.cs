@@ -82,8 +82,8 @@ namespace mvc
                 });
 
                 endpoints.MapControllerRoute(
-                    name: "first",
-                    pattern: "start-here/{controller}/{action}{id?}"
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
         }
