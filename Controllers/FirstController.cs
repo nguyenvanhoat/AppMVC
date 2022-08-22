@@ -9,7 +9,6 @@ using mvc.Service;
 
 namespace mvc.Controllers
 {
-    [Route("[controller]")]
     public class FirstController : Controller
     {
         private readonly ILogger<FirstController> _logger;
@@ -24,7 +23,8 @@ namespace mvc.Controllers
         {
             return View();
         }
-
+        [AcceptVerbs("POST", "GET")]
+        //[HttpPost]
         public IActionResult ViewProduct(int? id)
         {
             var product = _productService.Where(p => p.Id == id).FirstOrDefault();

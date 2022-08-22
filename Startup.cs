@@ -76,7 +76,7 @@ namespace mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=First}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
