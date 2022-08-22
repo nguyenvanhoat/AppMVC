@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using mvc.ExtendMethods;
+using mvc.Service;
 
 namespace mvc
 {
@@ -27,6 +29,7 @@ namespace mvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,27 @@ namespace mvc
             app.UseStaticFiles();
 
             app.AddStatusCodePages();
+            // app.UseStatusCodePages(error => {
+            //     error.Run(async context => {
+            //         var respone = context.Response;
+
+            //         var code = respone.StatusCode;
+
+                    
+
+            //         var content = @$"
+            //         <html>
+            //             <head>
+            //                 <meta charset = 'UTF-8'/>
+            //             </head>
+
+            //             <h1> Có lỗi: {code} - {(HttpStatusCode)code}</h1>
+            //         </html>
+            //         ";
+
+            //         await respone.WriteAsync(content);
+            //     });
+            // });
 
             app.UseRouting();
 
